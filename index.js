@@ -2,7 +2,15 @@ window.onload = function() {
     console.log('aqui');
 
     window.pratosPrincipais = [];
-    window.complementos = [];
+    window.complementos = [
+        'Arroz',
+        'Feijão preto',
+        'Macarrão espaguete',
+        'Farofa',
+        'Salada verde'
+    ];
+    handlerList(window.complementos, "#complementosList")
+
 
     document.querySelector("#addPrincipal").addEventListener('click', function(e) {
         let value = document.querySelector("#principais").value;
@@ -36,9 +44,9 @@ window.onload = function() {
         let wApiUrl = "https://api.whatsapp.com/send?phone={msisdn}&text={message}"
         
         let messageT = `🍴Colher de Pau 🍴
-        . Cardápio do Dia🍳
+        . *Cardápio do Dia*🍳
   
-   O ALMOÇO COMEÇARÁ A SER SERVIDO  PONTUALMENTE DE 11:00 AS 15:00 HRS 
+   _O ALMOÇO COMEÇARÁ A SER SERVIDO  PONTUALMENTE DE 11:00 AS 15:00 HRS_ 
   
    {pratos}
   
@@ -50,7 +58,7 @@ window.onload = function() {
     
   🏍Taxa de entrega R$ 2,00 
   
-  ⚠️ POR FAVOR, ENVIE SEU ENDEREÇO, PONTO DE REFERÊNCIA E FORMA DE PAGAMENTO⚠️
+  ⚠️ *POR FAVOR, ENVIE SEU ENDEREÇO, PONTO DE REFERÊNCIA E FORMA DE PAGAMENTO*⚠️
   
         🍽 Bom apetite!!! 🍽`;
 
@@ -58,7 +66,7 @@ window.onload = function() {
         pratosPrincipais.forEach(function(e) {
             pratos += `
             ✅ {item} 
-            `.replace("{item}", e);
+            `.replace("{item}", e).replace("{item}", e);
         });
 
         let complementosToInner = "";
@@ -79,13 +87,12 @@ window.onload = function() {
 };
 
 function removeItem(text, type) {
-    console.log("adsad", type, text);
+    
     if(type == "principais") {
         let index = window.pratosPrincipais.indexOf(text);
         console.log(type, index);
         if(index != -1) {
-            window.pratosPrincipais = window.pratosPrincipais.splice(index, 1);
-            console.log(pratosPrincipais)
+            window.pratosPrincipais.splice(index, 1);
         }
         handlerList(window.pratosPrincipais, "#principaisList")
     }
@@ -108,12 +115,12 @@ function handlerList(list, destiny) {
         type = "complementos";
     }
 
-    let removeButton = '<a href="#" onclick="removeItem(\'{item}\',\'{type}\')">remover<a>'
-    let listT = "<li>{item} "+removeButton+"</li>";
     let toInner = "";
 
     list.forEach(function(e) {
-        toInner += listT.replace("{item}", e).replace("{type}",type);
+        let removeButton = '<a href="#" onclick="removeItem(\'{item}\',\'{type}\')">remover<a>'
+        let listT = "<li>{item} "+removeButton+"</li>";
+        toInner += listT.replace("{item}", e).replace("{item}", e).replace("{type}",type);
     });
 
     document.querySelector(destiny).innerHTML = toInner;
